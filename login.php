@@ -71,13 +71,14 @@
             // Check if the user exists in the database
             $stmt = $db->conn->prepare("SELECT * FROM faculty_details WHERE user_name = :username AND password = :password");
             $stmt->execute([':username' => $username, ':password' => $password]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC); 
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);  // Fetch the user record from the database in the form of an associative array (key-value pair) ex: ['username' => 'john', 'password' => '1234']
+            //PDO full form is PHP Data Objects which is a database access layer providing a uniform method of access to multiple databases.
 
             if ($user) {
                 // User authenticated successfully
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['user_name'];
-                header('Location: dashboard.php');
+                $_SESSION['user_id'] = $user['id'];  // Set the user_id in the session
+                $_SESSION['username'] = $user['user_name']; // Set the username in the session
+                header('Location: dashboard.php');  // Redirect to the dashboard page
                 exit;
             } else {
                 // Authentication failed
@@ -86,7 +87,7 @@
         }
 
         // Display error message if set
-        if (isset($error_message)) {
+        if(isset($error_message)) {
             echo "<p style='color: red;'>$error_message</p>";
         }
     ?>
